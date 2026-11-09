@@ -15,7 +15,7 @@ npm install
 npm run dev
 ```
 
-Open the local address printed in the terminal in Chrome, including the `/city-capital-game/` path. Drag on the scene to orbit the camera and scroll to zoom. Press `Ctrl+C` in the terminal to stop the server.
+Open the local address printed in the terminal in Chrome, including the `/city-capital-game/` path. Drag on the scene to orbit the camera, scroll to zoom, and click a colored property plot to see its details. Press `Ctrl+C` in the terminal to stop the server.
 
 ## Production build
 
@@ -28,7 +28,7 @@ The build command checks the TypeScript code and creates the production-ready si
 
 ## Development status
 
-This is the project foundation only: a basic scene with a temporary box, camera, lighting, shadows, and a small interface. There are no gameplay mechanics or external art assets yet. The Babylon.js glTF loader is registered for future glTF 2.0/GLB assets.
+This prototype includes a temporary city board with 12 selectable property plots, a separate START tile, roads, sidewalks, camera, lighting, shadows, and a small interface. There are no gameplay mechanics or external art assets yet. The Babylon.js glTF loader is registered for future glTF 2.0/GLB assets.
 
 ## GitHub Pages
 
