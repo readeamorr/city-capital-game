@@ -14,7 +14,18 @@
       <p class="subtitle">Property Trading Prototype</p>
       <p class="status" id="status" role="status">Loading prototype scene…</p>
     </header>
-    <p class="controls">Drag to orbit <span aria-hidden="true">·</span> Scroll to zoom</p>
+    <aside class="property-panel" id="property-panel" aria-live="polite" hidden>
+      <p class="panel-label">PROPERTY DETAILS</p>
+      <h2 data-property="name"></h2>
+      <dl>
+        <div><dt>Property ID</dt><dd data-property="id"></dd></div>
+        <div><dt>Purchase price</dt><dd data-property="price"></dd></div>
+        <div><dt>Base rent</dt><dd data-property="rent"></dd></div>
+        <div><dt>Owner</dt><dd data-property="owner"></dd></div>
+        <div><dt>Building level</dt><dd data-property="level"></dd></div>
+      </dl>
+    </aside>
+    <p class="controls">Click a plot for details <span aria-hidden="true">·</span>Drag to orbit <span aria-hidden="true">·</span> Scroll to zoom</p>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

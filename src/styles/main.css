@@ -21,3 +21,12 @@ h1 { margin: 0; font-size: clamp(32px, 5vw, 52px); line-height: 1; letter-spacin
 .status { display: inline-block; margin: 0; padding: 9px 13px; border: 1px solid rgba(255,255,255,.3); border-radius: 999px; background: rgba(31,52,58,.35); font-size: 12px; }
 .status::before { content: ''; display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: #b8e5c6; }
 .controls { position: absolute; bottom: 22px; right: 24px; margin: 0; color: rgba(255,255,255,.85); font-size: 12px; pointer-events: none; text-shadow: 0 2px 8px #334d54; }
+.property-panel { position: absolute; top: clamp(20px, 4vw, 48px); right: clamp(20px, 4vw, 48px); width: min(270px, calc(100vw - 40px)); padding: 20px; color: #eef6f4; background: rgba(30, 51, 55, .92); border: 1px solid rgba(255,255,255,.2); border-radius: 14px; box-shadow: 0 12px 35px rgba(20,35,40,.2); }
+.property-panel[hidden] { display: none; }
+.panel-label { margin: 0 0 8px; color: #a5d5c6; font-size: 10px; font-weight: 700; letter-spacing: .16em; }
+.property-panel h2 { margin: 0 0 15px; font-size: 22px; }
+.property-panel dl { margin: 0; font-size: 13px; }
+.property-panel dl div { display: flex; justify-content: space-between; gap: 14px; padding: 8px 0; border-top: 1px solid rgba(255,255,255,.1); }
+.property-panel dt { color: #bbceca; }
+.property-panel dd { margin: 0; text-align: right; }
+@media (max-width: 650px) { .property-panel { top: auto; bottom: 48px; right: 20px; padding: 14px; } .property-panel h2 { font-size: 18px; margin-bottom: 8px; } .property-panel dl div { padding: 5px 0; } .controls { left: 20px; right: auto; bottom: 16px; font-size: 11px; } }
