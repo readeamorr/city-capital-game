@@ -1,3 +1,5 @@
+// Babylon's modular build needs this side-effect import to register ray-based scene picking.
+import '@babylonjs/core/Culling/ray';
 import { PointerEventTypes } from '@babylonjs/core/Events/pointerEvents';
 import { Color3 } from '@babylonjs/core/Maths/math.color';
 import { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTexture';
@@ -61,6 +63,7 @@ export function createBoard(scene: Scene, properties: readonly Property[], onSel
   const label = MeshBuilder.CreateGround('start label', { width: 1.5, height: 1.5 }, scene);
   label.position.set(-10.9, 0.675, 0); label.material = labelMaterial; label.isPickable = false;
 
+  const propertiesById = new Map(properties.map((property) => [property.id, property]));
   let selected: StandardMaterial | undefined;
   properties.forEach((property, index) => {
     const x = -8.75 + (index % 6) * 3.5;
@@ -69,18 +72,21 @@ export function createBoard(scene: Scene, properties: readonly Property[], onSel
     const plotMaterial = material(`plot material ${property.id}`, districtColors[property.district]);
     const plot = block(`plot-${property.id}`, 2.75, 0.22, 3.5, x, 0.68, z, plotMaterial);
     plot.isPickable = true;
-    plot.metadata = { property };
+    plot.metadata = { propertyId: property.id };
     // Small inset gives the empty plots some dimension without suggesting a building level.
     block(`plot inset ${property.id}`, 1.9, 0.025, 2.5, x, 0.805, z, plotMaterial);
   });
 
   scene.onPointerObservable.add((event) => {
-    const mesh = event.pickInfo?.pickedMesh;
-    const property = mesh?.metadata?.property as Property | undefined;
-    if (!property || !(mesh?.material instanceof StandardMaterial)) return;
+    const mesh = event.pickInfo?.hit ? event.pickInfo.pickedMesh : null;
+    const propertyId: unknown = mesh?.metadata?.propertyId;
+    if (typeof propertyId !== 'string' || !(mesh?.material instanceof StandardMaterial)) return;
+    const property = propertiesById.get(propertyId);
+    if (!property) return;
+    console.log('Property selected', propertyId);
     if (selected) selected.emissiveColor = Color3.Black();
     selected = mesh.material;
     selected.emissiveColor = new Color3(0.28, 0.28, 0.17);
     onSelect(property);
-  }, PointerEventTypes.POINTERTAP);
+  }, PointerEventTypes.POINTERDOWN);
 }
