@@ -15,7 +15,7 @@ npm install
 npm run dev
 ```
 
-Open the local address printed in the terminal in Chrome. Drag on the scene to orbit the camera and scroll to zoom. Press `Ctrl+C` in the terminal to stop the server.
+Open the local address printed in the terminal in Chrome, including the `/city-capital-game/` path. Drag on the scene to orbit the camera and scroll to zoom. Press `Ctrl+C` in the terminal to stop the server.
 
 ## Production build
 
@@ -29,3 +29,17 @@ The build command checks the TypeScript code and creates the production-ready si
 ## Development status
 
 This is the project foundation only: a basic scene with a temporary box, camera, lighting, shadows, and a small interface. There are no gameplay mechanics or external art assets yet. The Babylon.js glTF loader is registered for future glTF 2.0/GLB assets.
+
+## GitHub Pages
+
+The site is configured for `https://readeamorr.github.io/city-capital-game/`. In the repository's **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**. Once the deployment workflow is on `main`, pushes to `main` build and deploy the site automatically. Check the **Actions** tab for deployment progress. The workflow can also be started manually from that tab.
+
+## Future GLB assets
+
+Place GLB files in `public/assets/models/`; Vite copies the `public` folder into the build unchanged. Construct asset URLs using Vite's base path instead of a root-relative path, so they work locally and on GitHub Pages. For example, a file at `public/assets/models/building.glb` can be addressed in TypeScript as:
+
+```ts
+const buildingUrl = `${import.meta.env.BASE_URL}assets/models/building.glb`;
+```
+
+Pass that URL to Babylon.js's glTF loading API when asset loading is implemented. No model is included yet.
