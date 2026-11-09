@@ -30,20 +30,24 @@ h1 { margin: 0; font-size: clamp(32px, 5vw, 52px); line-height: 1; letter-spacin
 .property-panel dt { color: #bbceca; }
 .property-panel dd { margin: 0; text-align: right; }
 @media (max-width: 650px) { .property-panel { top: auto; bottom: 48px; right: 20px; padding: 14px; } .property-panel h2 { font-size: 18px; margin-bottom: 8px; } .property-panel dl div { padding: 5px 0; } .controls { left: 20px; right: auto; bottom: 16px; font-size: 11px; } }
-.turn-panel { position: absolute; left: clamp(20px, 4vw, 48px); bottom: 34px; display: flex; align-items: center; gap: 20px; padding: 15px 18px; max-width: calc(100vw - 40px); color: #f6fafb; background: rgba(30, 51, 55, .94); border: 1px solid rgba(255,255,255,.2); border-radius: 14px; box-shadow: 0 12px 35px rgba(20,35,40,.2); }
-.turn-status { display: flex; gap: 20px; }
-.turn-status div { display: flex; flex-direction: column; gap: 4px; }
-.turn-status span { color: #bbceca; font-size: 11px; }
-.turn-status strong { font-size: 14px; }
+/* Keep the die and turn updates readable without covering the entire board. */
+.turn-panel { position: absolute; left: clamp(20px, 4vw, 48px); bottom: 34px; display: flex; align-items: center; gap: 24px; padding: 16px 20px; max-width: calc(100vw - 40px); color: #f6fafb; background: rgba(30, 51, 55, .96); border: 1px solid rgba(255,255,255,.25); border-radius: 14px; box-shadow: 0 12px 35px rgba(20,35,40,.25); }
+.turn-status { min-width: 0; }
+.turn-status p { margin: 0; }
+.dice-result { display: flex; align-items: center; gap: 12px; font-size: 17px; font-weight: 700; }
+.dice-result strong { display: inline-grid; place-items: center; min-width: 52px; height: 52px; border-radius: 10px; background: #f4bc57; color: #263d3f; font-size: 36px; line-height: 1; }
+.current-position { margin-top: 10px !important; font-size: 14px; color: #d3e3df; }
+.current-position strong { color: #fff; }
+.turn-message { margin-top: 5px !important; font-size: 13px; color: #c8e7d9; }
 #roll-dice { border: 0; border-radius: 8px; padding: 11px 18px; background: #f4bc57; color: #263d3f; font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; white-space: nowrap; }
 #roll-dice:disabled { opacity: .55; cursor: wait; }
 #roll-dice:focus-visible { outline: 3px solid white; outline-offset: 3px; }
 @media (max-width: 650px) {
-  .turn-panel { bottom: 45px; left: 20px; right: 20px; padding: 10px 12px; gap: 10px; justify-content: space-between; }
-  .turn-status { gap: 10px; min-width: 0; }
-  .turn-status strong { font-size: 12px; }
-  .turn-status div:last-child { min-width: 0; }
-  .turn-status div:last-child strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .turn-panel { bottom: 40px; left: 12px; right: 12px; max-width: none; padding: 10px 12px; gap: 10px; justify-content: space-between; }
+  .dice-result { font-size: 15px; gap: 8px; }
+  .dice-result strong { min-width: 42px; height: 42px; font-size: 28px; }
+  .current-position { margin-top: 6px !important; font-size: 12px; }
+  .turn-message { font-size: 12px; }
   #roll-dice { padding: 10px; font-size: 12px; }
-  .property-panel { bottom: 125px; }
+  .property-panel { top: 160px; bottom: auto; }
 }

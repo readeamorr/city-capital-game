@@ -15,10 +15,10 @@
       <p class="status" id="status" role="status">Loading prototype scene…</p>
     </header>
     <section class="turn-panel" aria-label="Turn controls">
-      <div class="turn-status" aria-live="polite">
-        <div><span>Last roll</span><strong id="dice-value">—</strong></div>
-        <div><span>Position</span><strong id="position-value">0 / 12</strong></div>
-        <div><span>Location</span><strong id="location-value">START</strong></div>
+      <div class="turn-status" aria-live="polite" aria-atomic="true">
+        <p class="dice-result">Dice roll: <strong id="dice-value">—</strong></p>
+        <p class="current-position">Current position: <strong id="location-value">START</strong></p>
+        <p class="turn-message" id="turn-message">Ready to roll</p>
       </div>
       <button id="roll-dice" type="button">Roll Dice</button>
     </section>
