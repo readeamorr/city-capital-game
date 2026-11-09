@@ -14,9 +14,9 @@ import { createPawn } from './createPawn';
 
 export function createScene(engine: Engine, canvas: HTMLCanvasElement) {
   const scene = new Scene(engine);
-  scene.clearColor = new Color4(0.45, 0.56, 0.62, 1);
+  scene.clearColor = new Color4(0.55, 0.67, 0.72, 1);
 
-  const camera = new ArcRotateCamera('camera', -Math.PI / 4, Math.PI / 3, 34, Vector3.Zero(), scene);
+  const camera = new ArcRotateCamera('camera', -Math.PI / 4, Math.PI / 3, 36, new Vector3(0, 0.3, 0), scene);
   camera.lowerRadiusLimit = 14;
   camera.upperRadiusLimit = 50;
   camera.upperBetaLimit = Math.PI / 2.05;
@@ -31,11 +31,13 @@ export function createScene(engine: Engine, canvas: HTMLCanvasElement) {
 
   const sunlight = new DirectionalLight('sunlight', new Vector3(-1, -2, -1), scene);
   sunlight.position = new Vector3(8, 16, 8);
-  sunlight.intensity = 1.2;
+  sunlight.intensity = 1.1;
+  sunlight.diffuse = new Color3(1, 0.94, 0.83);
   const ambient = new HemisphericLight('ambient', new Vector3(0, 1, 0), scene);
-  ambient.intensity = 0.65;
+  ambient.intensity = 0.75;
+  ambient.groundColor = new Color3(0.36, 0.42, 0.40);
 
-  const shadows = new ShadowGenerator(1024, sunlight);
+  const shadows = new ShadowGenerator(2048, sunlight);
   shadows.useBlurExponentialShadowMap = true;
   const board = createBoard(scene, properties, showProperty, shadows);
   const pawn = createPawn(scene, shadows, board.startPosition);

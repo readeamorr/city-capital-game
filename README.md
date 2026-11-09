@@ -32,7 +32,7 @@ The build command checks the TypeScript code and creates the production-ready si
 
 ## Development status
 
-This prototype includes a temporary city board with 12 selectable property plots, a separate START tile, roads, sidewalks, camera, lighting, shadows, and a small interface. One player can roll a die and move around the board; buying, rent, building upgrades, opponents, and multiplayer are not implemented. There are no external art assets yet. The Babylon.js glTF loader is registered for future glTF 2.0/GLB assets.
+This prototype includes a stylized primitive-mesh city board with 12 selectable property plots, a separate START tile, road markings, sidewalks, street lamps, vegetation, a civic landmark, and property signs. One player can roll a die and move around the board; buying, rent, building upgrades, opponents, and multiplayer are not implemented. There are no external art assets yet. The Babylon.js glTF loader is registered for future glTF 2.0/GLB assets.
 
 ## GitHub Pages
 
