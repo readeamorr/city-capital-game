@@ -1,6 +1,8 @@
 import { Engine } from '@babylonjs/core/Engines/engine';
 import '@babylonjs/loaders/glTF';
 import { createScene } from './scene/createScene';
+import { properties } from './game/properties';
+import { createRoute, createTurnController } from './game/turn';
 import './styles/main.css';
 
 const canvas = document.querySelector<HTMLCanvasElement>('#game-canvas');
@@ -12,7 +14,39 @@ if (!canvas || !status) {
 
 try {
   const engine = new Engine(canvas, true);
-  const scene = createScene(engine, canvas);
+  const { scene, board, pawn } = createScene(engine, canvas);
+  const rollButton = document.querySelector<HTMLButtonElement>('#roll-dice');
+  const diceValue = document.querySelector<HTMLElement>('#dice-value');
+  const positionValue = document.querySelector<HTMLElement>('#position-value');
+  const locationValue = document.querySelector<HTMLElement>('#location-value');
+  const propertyPanel = document.querySelector<HTMLElement>('#property-panel');
+  if (!rollButton || !diceValue || !positionValue || !locationValue || !propertyPanel) {
+    throw new Error('The turn controls are missing.');
+  }
+
+  const route = createRoute(properties);
+  const turn = createTurnController(route, (space) => {
+    const destination = space.kind === 'start' ? board.startPosition : board.positions.get(space.propertyId);
+    if (!destination) throw new Error('A board position is missing.');
+    return pawn.moveTo(destination);
+  }, (state, space) => {
+    rollButton.disabled = state.moving;
+    diceValue.textContent = state.lastRoll === null ? '—' : String(state.lastRoll);
+    positionValue.textContent = `${state.position} / ${route.length - 1}`;
+    locationValue.textContent = space.kind === 'start' ? 'START' : space.name;
+  }, (space) => {
+    if (space.kind === 'property') board.selectProperty(space.propertyId);
+    else {
+      board.clearSelection();
+      propertyPanel.hidden = true;
+    }
+  });
+  rollButton.addEventListener('click', () => {
+    void turn.roll().catch((error: unknown) => {
+      status.textContent = 'Unable to complete the move.';
+      console.error('Turn failed:', error);
+    });
+  });
 
   engine.runRenderLoop(() => scene.render());
   window.addEventListener('resize', () => engine.resize());

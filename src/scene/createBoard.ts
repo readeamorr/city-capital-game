@@ -2,6 +2,7 @@
 import '@babylonjs/core/Culling/ray';
 import { PointerEventTypes } from '@babylonjs/core/Events/pointerEvents';
 import { Color3 } from '@babylonjs/core/Maths/math.color';
+import { Vector3 } from '@babylonjs/core/Maths/math.vector';
 import { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTexture';
 import type { ShadowGenerator } from '@babylonjs/core/Lights/Shadows/shadowGenerator';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
@@ -13,7 +14,7 @@ const districtColors: Record<Property['district'], string> = {
   harbor: '#5ca8ad', garden: '#81aa70', market: '#d39c66', innovation: '#888dc2',
 };
 
-export function createBoard(scene: Scene, properties: readonly Property[], onSelect: (property: Property) => void, shadows: ShadowGenerator): void {
+export function createBoard(scene: Scene, properties: readonly Property[], onSelect: (property: Property) => void, shadows: ShadowGenerator) {
   function material(name: string, color: string): StandardMaterial {
     const result = new StandardMaterial(name, scene);
     result.diffuseColor = Color3.FromHexString(color);
@@ -65,6 +66,9 @@ export function createBoard(scene: Scene, properties: readonly Property[], onSel
 
   const propertiesById = new Map(properties.map((property) => [property.id, property]));
   let selected: StandardMaterial | undefined;
+  const propertyMaterials = new Map<string, StandardMaterial>();
+  const positions = new Map<string, Vector3>();
+  const startPosition = new Vector3(-10.9, 1.185, 0);
   properties.forEach((property, index) => {
     const x = -8.75 + (index % 6) * 3.5;
     const z = index < 6 ? -4.9 : 4.9;
@@ -73,20 +77,33 @@ export function createBoard(scene: Scene, properties: readonly Property[], onSel
     const plot = block(`plot-${property.id}`, 2.75, 0.22, 3.5, x, 0.68, z, plotMaterial);
     plot.isPickable = true;
     plot.metadata = { propertyId: property.id };
+    propertyMaterials.set(property.id, plotMaterial);
+    positions.set(property.id, new Vector3(x, 1.33, z));
     // Small inset gives the empty plots some dimension without suggesting a building level.
     block(`plot inset ${property.id}`, 1.9, 0.025, 2.5, x, 0.805, z, plotMaterial);
   });
 
+  function clearSelection() {
+    if (selected) selected.emissiveColor = Color3.Black();
+    selected = undefined;
+  }
+
+  function selectProperty(propertyId: string) {
+    const property = propertiesById.get(propertyId);
+    const plotMaterial = propertyMaterials.get(propertyId);
+    if (!property || !plotMaterial) return;
+    console.log('Property selected', propertyId);
+    clearSelection();
+    selected = plotMaterial;
+    selected.emissiveColor = new Color3(0.28, 0.28, 0.17);
+    onSelect(property);
+  }
+
   scene.onPointerObservable.add((event) => {
     const mesh = event.pickInfo?.hit ? event.pickInfo.pickedMesh : null;
     const propertyId: unknown = mesh?.metadata?.propertyId;
-    if (typeof propertyId !== 'string' || !(mesh?.material instanceof StandardMaterial)) return;
-    const property = propertiesById.get(propertyId);
-    if (!property) return;
-    console.log('Property selected', propertyId);
-    if (selected) selected.emissiveColor = Color3.Black();
-    selected = mesh.material;
-    selected.emissiveColor = new Color3(0.28, 0.28, 0.17);
-    onSelect(property);
+    if (typeof propertyId === 'string') selectProperty(propertyId);
   }, PointerEventTypes.POINTERDOWN);
+
+  return { startPosition, positions, selectProperty, clearSelection };
 }

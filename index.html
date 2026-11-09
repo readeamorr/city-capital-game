@@ -14,6 +14,14 @@
       <p class="subtitle">Property Trading Prototype</p>
       <p class="status" id="status" role="status">Loading prototype scene…</p>
     </header>
+    <section class="turn-panel" aria-label="Turn controls">
+      <div class="turn-status" aria-live="polite">
+        <div><span>Last roll</span><strong id="dice-value">—</strong></div>
+        <div><span>Position</span><strong id="position-value">0 / 12</strong></div>
+        <div><span>Location</span><strong id="location-value">START</strong></div>
+      </div>
+      <button id="roll-dice" type="button">Roll Dice</button>
+    </section>
     <aside class="property-panel" id="property-panel" aria-live="polite" hidden>
       <p class="panel-label">PROPERTY DETAILS</p>
       <h2 data-property="name"></h2>

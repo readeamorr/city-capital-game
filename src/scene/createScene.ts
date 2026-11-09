@@ -10,8 +10,9 @@ import type { Engine } from '@babylonjs/core/Engines/engine';
 import { properties } from '../game/properties';
 import { showProperty } from '../ui/propertyPanel';
 import { createBoard } from './createBoard';
+import { createPawn } from './createPawn';
 
-export function createScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
+export function createScene(engine: Engine, canvas: HTMLCanvasElement) {
   const scene = new Scene(engine);
   scene.clearColor = new Color4(0.45, 0.56, 0.62, 1);
 
@@ -36,7 +37,8 @@ export function createScene(engine: Engine, canvas: HTMLCanvasElement): Scene {
 
   const shadows = new ShadowGenerator(1024, sunlight);
   shadows.useBlurExponentialShadowMap = true;
-  createBoard(scene, properties, showProperty, shadows);
+  const board = createBoard(scene, properties, showProperty, shadows);
+  const pawn = createPawn(scene, shadows, board.startPosition);
 
-  return scene;
+  return { scene, board, pawn };
 }
