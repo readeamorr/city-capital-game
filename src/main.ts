@@ -17,10 +17,10 @@ try {
   const { scene, board, pawn } = createScene(engine, canvas);
   const rollButton = document.querySelector<HTMLButtonElement>('#roll-dice');
   const diceValue = document.querySelector<HTMLElement>('#dice-value');
-  const positionValue = document.querySelector<HTMLElement>('#position-value');
+  const turnMessage = document.querySelector<HTMLElement>('#turn-message');
   const locationValue = document.querySelector<HTMLElement>('#location-value');
   const propertyPanel = document.querySelector<HTMLElement>('#property-panel');
-  if (!rollButton || !diceValue || !positionValue || !locationValue || !propertyPanel) {
+  if (!rollButton || !diceValue || !turnMessage || !locationValue || !propertyPanel) {
     throw new Error('The turn controls are missing.');
   }
 
@@ -32,9 +32,12 @@ try {
   }, (state, space) => {
     rollButton.disabled = state.moving;
     diceValue.textContent = state.lastRoll === null ? '—' : String(state.lastRoll);
-    positionValue.textContent = `${state.position} / ${route.length - 1}`;
     locationValue.textContent = space.kind === 'start' ? 'START' : space.name;
+    if (state.moving && state.lastRoll !== null) {
+      turnMessage.textContent = `Moving ${state.lastRoll} ${state.lastRoll === 1 ? 'space' : 'spaces'}...`;
+    }
   }, (space) => {
+    turnMessage.textContent = `Landed on: ${space.kind === 'start' ? 'START' : space.name}`;
     if (space.kind === 'property') board.selectProperty(space.propertyId);
     else {
       board.clearSelection();
@@ -44,6 +47,7 @@ try {
   rollButton.addEventListener('click', () => {
     void turn.roll().catch((error: unknown) => {
       status.textContent = 'Unable to complete the move.';
+      turnMessage.textContent = 'Movement interrupted. Try rolling again.';
       console.error('Turn failed:', error);
     });
   });
