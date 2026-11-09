@@ -17,6 +17,10 @@ npm run dev
 
 Open the local address printed in the terminal in Chrome, including the `/city-capital-game/` path. Drag on the scene to orbit the camera, scroll to zoom, click a colored property plot to see its details, and press **Roll Dice** to move the pawn. Press `Ctrl+C` in the terminal to stop the server.
 
+## Automated tests
+
+Run `npm test` to check property records, Babylon.js board picking, dice rolls, movement locking, and landing positions.
+
 ## Production build
 
 ```bash
@@ -28,11 +32,11 @@ The build command checks the TypeScript code and creates the production-ready si
 
 ## Development status
 
-This prototype includes a temporary city board with 12 selectable property plots, a separate START tile, roads, sidewalks, camera, lighting, shadows, and a small interface. One player can roll a die and move around the board; buying, rent, building upgrades, opponents, and multiplayer are not implemented. There are no external art assets yet. The Babylon.js glTF loader is registered for future glTF 2.0/GLB assets.
+This prototype includes a stylized primitive-mesh city board with 12 selectable property plots, a separate START tile, road markings, sidewalks, street lamps, vegetation, a civic landmark, and property signs. One player can roll a die and move around the board; buying, rent, building upgrades, opponents, and multiplayer are not implemented. There are no external art assets yet. The Babylon.js glTF loader is registered for future glTF 2.0/GLB assets.
 
 ## GitHub Pages
 
-The site is configured for `https://readeamorr.github.io/city-capital-game/`. In the repository's **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**. Once the deployment workflow is on `main`, pushes to `main` build and deploy the site automatically. Check the **Actions** tab for deployment progress. The workflow can also be started manually from that tab.
+The site is configured for `https://readeamorr.github.io/city-capital-game/`. In the repository's **Settings → Pages**, set **Build and deployment → Source** to **GitHub Actions**. Pages must be enabled in repository settings before deployment; the workflow does not create or enable the Pages site. Once the deployment workflow is on `main`, pushes to `main` build and deploy the site automatically. Check the **Actions** tab for deployment progress. The workflow can also be started manually from that tab.
 
 ## Future GLB assets
 

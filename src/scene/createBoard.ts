@@ -9,6 +9,7 @@ import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder';
 import type { Scene } from '@babylonjs/core/scene';
 import type { Property } from '../game/properties';
+import { createCityDetails } from './cityDetails';
 
 const districtColors: Record<Property['district'], string> = {
   harbor: '#5ca8ad', garden: '#81aa70', market: '#d39c66', innovation: '#888dc2',
@@ -30,6 +31,7 @@ export function createBoard(scene: Scene, properties: readonly Property[], onSel
     return mesh;
   }
 
+  const details = createCityDetails(scene, shadows);
   const base = material('board base', '#455c61');
   const sidewalk = material('sidewalk', '#c7c9b7');
   const road = material('road', '#526267');
@@ -73,6 +75,8 @@ export function createBoard(scene: Scene, properties: readonly Property[], onSel
     const x = -8.75 + (index % 6) * 3.5;
     const z = index < 6 ? -4.9 : 4.9;
     block(`walkway-${property.id}`, 3.15, 0.1, 4.0, x, 0.52, z, sidewalk);
+    // An additional raised stone layer frames each coloured district plot.
+    block(`plot foundation ${property.id}`, 2.95, 0.14, 3.7, x, 0.60, z, sidewalk);
     const plotMaterial = material(`plot material ${property.id}`, districtColors[property.district]);
     const plot = block(`plot-${property.id}`, 2.75, 0.22, 3.5, x, 0.68, z, plotMaterial);
     plot.isPickable = true;
@@ -81,6 +85,7 @@ export function createBoard(scene: Scene, properties: readonly Property[], onSel
     positions.set(property.id, new Vector3(x, 1.33, z));
     // Small inset gives the empty plots some dimension without suggesting a building level.
     block(`plot inset ${property.id}`, 1.9, 0.025, 2.5, x, 0.805, z, plotMaterial);
+    details.sign(property.id, property.name, x, z);
   });
 
   function clearSelection() {

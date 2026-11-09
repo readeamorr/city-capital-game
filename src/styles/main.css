@@ -51,3 +51,17 @@ h1 { margin: 0; font-size: clamp(32px, 5vw, 52px); line-height: 1; letter-spacin
   #roll-dice { padding: 10px; font-size: 12px; }
   .property-panel { top: 160px; bottom: auto; }
 }
+/* Higher contrast and clearer layering for city and turn information. */
+.game-header h1 { color: #fffefa; text-shadow: 0 3px 20px rgba(24, 43, 48, .4); }
+.property-panel, .turn-panel { backdrop-filter: blur(8px); }
+.property-panel { border-top: 3px solid #b9ddc9; }
+.turn-panel { border-top: 3px solid #f4bc57; }
+@media (max-width: 650px) {
+  .game-header { top: 14px; left: 14px; }
+  .game-header h1 { font-size: 30px; }
+  .game-header .eyebrow { font-size: 9px; }
+  .game-header .subtitle { margin: 6px 0 10px; }
+  .property-panel { top: 130px; right: 12px; width: min(240px, calc(100vw - 24px)); }
+  .turn-panel { bottom: 38px; }
+  .controls { bottom: 12px; left: 12px; font-size: 10px; }
+}
